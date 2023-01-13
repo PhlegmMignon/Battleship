@@ -11,18 +11,26 @@ const shipFactory = (chosenLocations) => {
   //   };
 
   const hit = (checkLocation) => {
-    if (shipLocations.includes(checkLocation)) {
-      console.log("hit");
+    if (shipLocation.includes(checkLocation)) {
+      // console.log("hit");
+      hitLocations.push(checkLocation);
     }
   };
 
   const isSunk = () => {
     let sunken = false;
-    if (shipLocation.sort() === hitLocations.sort()) {
-      let sunken = true;
+
+    shipLocation.sort();
+    hitLocations.sort();
+
+    for (let i = 0; i < shipLocation.length; i++) {
+      if (shipLocation[i] != hitLocations[i]) {
+        return sunken;
+      }
     }
+    return (sunken = true);
   };
-  return { shipLocation, hit, isSunk };
+  return { shipLocation, hitLocations, hit, isSunk };
 };
 
 module.exports = shipFactory;
