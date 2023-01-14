@@ -33,7 +33,6 @@ import gameboardFactory from "./gameboardFactory.js";
 // });
 
 describe("gameboardFactory functions", () => {
-  let ship;
   let shipLocation;
   let gameboard;
 
@@ -43,14 +42,17 @@ describe("gameboardFactory functions", () => {
   });
 
   it("Checks if ship can be made", () => {
-    gameboard.placeShip(shipLocation);
+    let ship = gameboard.placeShip(shipLocation);
     expect(ship.shipLocation).toEqual([5, 6, 7, 8]);
   });
 
-  // it("Checks for attack hit", () => {
-  //   ship = shipFactory(shipLocation);
-  //   let tile = 5;
+  it("Checks for attack hit", () => {
+    let ship = gameboard.placeShip(shipLocation);
+    let ships = [ship];
+    let tile = 5;
 
-  //   expect(gameboard.receiveAttack(tile)).toBe(true);
-  // });
+    gameboard.receiveAttack(tile, ships);
+
+    expect(gameboard.receiveAttack(tile)).toBe(true);
+  });
 });

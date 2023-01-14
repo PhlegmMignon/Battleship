@@ -11,13 +11,13 @@ const gameboardFactory = () => {
   //   }
   const placeShip = (shipLocations) => {
     let ship = shipFactory(shipLocations);
-    ships.push(ship);
+    return ship;
   };
 
-  const receiveAttack = (tile) => {
-    console.log("hi");
+  const receiveAttack = (tile, ships) => {
+    console.log(ships);
     for (ship in ships) {
-      console.log(ship);
+      // console.log(ship);
 
       if (ship.shipLocation.includes(tile)) {
         return true;
