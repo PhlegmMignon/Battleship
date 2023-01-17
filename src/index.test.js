@@ -35,6 +35,8 @@ import gameboardFactory from "./gameboardFactory.js";
 describe("gameboardFactory functions", () => {
   let shipLocation;
   let gameboard;
+  let ships = [];
+  let tile;
 
   beforeEach(() => {
     shipLocation = [5, 6, 7, 8];
@@ -48,11 +50,9 @@ describe("gameboardFactory functions", () => {
 
   it("Checks for attack hit", () => {
     let ship = gameboard.placeShip(shipLocation);
-    let ships = [ship];
-    let tile = 5;
+    ships.push(ship);
+    tile = 5;
 
-    gameboard.receiveAttack(tile, ships);
-
-    expect(gameboard.receiveAttack(tile)).toBe(true);
+    expect(gameboard.receiveAttack(tile, ships[0])).toBe(true);
   });
 });

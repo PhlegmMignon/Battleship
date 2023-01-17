@@ -14,21 +14,14 @@ const gameboardFactory = () => {
     return ship;
   };
 
-  const receiveAttack = (tile, ships) => {
-    console.log(ships);
-    for (ship in ships) {
-      // console.log(ship);
-
-      if (ship.shipLocation.includes(tile)) {
-        return true;
-      }
-
-      //   for (location in ship.shipLocation) {
-      //     if (tile == location) {
-      //       console.log("hit");
-      //     }
-      //   }
+  const receiveAttack = (tile, ship) => {
+    if (ship.shipLocation.includes(tile)) {
+      ship.hitLocations.push(tile);
+      // console.log(ship.hitLocations);
+      return true;
     }
+
+    return false;
   };
 
   return { ships, placeShip, receiveAttack };
