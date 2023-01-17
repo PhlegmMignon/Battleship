@@ -43,7 +43,7 @@ describe("gameboardFactory functions", () => {
     gameboard = gameboardFactory();
   });
 
-  it("Checks if ship can be made", () => {
+  it("Checks if ship can be placed through gameboard", () => {
     let ship = gameboard.placeShip(shipLocation);
     expect(ship.shipLocation).toEqual([5, 6, 7, 8]);
   });
@@ -54,5 +54,29 @@ describe("gameboardFactory functions", () => {
     tile = 5;
 
     expect(gameboard.receiveAttack(tile, ships[0])).toBe(true);
+  });
+
+  it("Checks if misssed shots are saved", () => {
+    let ship = gameboard.placeShip(shipLocation);
+    ships.push(ship);
+    tile = 1;
+
+    gameboard.receiveAttack(tile, ships[0]);
+    expect(gameboard.missedShots).toEqual([1]);
+  });
+
+  it("Reports when all ships are sunk", () => {
+    for (let i = 1; i < 6; i++) {
+      shipLocation = [i];
+      let ship = gameboard.placeShip(shipLocation);
+      ships.push(ship);
+      tile = i;
+
+      gameboard.receiveAttack(tile, ships[i - 1]);
+    }
+
+    gameboard.allShipsSunk(ships);
+
+    expect(gameboard.allShipsSunk()).toBe(true);
   });
 });
