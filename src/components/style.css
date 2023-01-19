@@ -16,3 +16,13 @@
 #prompt {
   justify-self: center;
 }
+
+#grid {
+  grid-template-columns: repeat(10, 50px);
+  grid-template-rows: repeat(10, 50px);
+  border-radius: 12px;
+}
+
+.tile {
+  border: 2px solid black;
+}
