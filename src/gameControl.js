@@ -32,38 +32,67 @@ async function gameControl(isHuman) {
     shipLocations.push(e.target.id);
   });
 
-  setTimeout(() => {
-    if (waitForUser(shipLocations, 1)) {
-      console.log(shipLocations);
-    }
-  }, 1000);
+  // for (let i = 0; i < 50; i++) {
+  //   setTimeout(() => {
+  //     let thing = waitForUser(shipLocations, 1);
 
-  // let gameboard1 = gameboardFactory();
-  // for (let i = 0; i < 5; i++) {
-  //   shipLocations = [];
-  //   if (waitForUser(shipLocations, shipLengths[i]) == true) {
-  //     gameboard1.placeShip(shipLocations);
-  //     console.log("hi");
-  //   }
+  //     if (thing == false) {
+  //       console.log(shipLocations);
+  //     }
+  //   }, 1000);
   // }
+
+  let gameboard1 = gameboardFactory();
+  for (let i = 0; i < 2; i++) {
+    shipLocations = [];
+    let p = new Promise((resolve) => {
+      let thing = waitForUser(shipLocations, shipLengths[i]);
+      console.log("thing is" + thing);
+    });
+    p.then((isValid) => {
+      if (isValid == true) {
+        console.log("hi");
+        gameboard1.placeShip(shipLocations);
+      }
+      console.log(p);
+    });
+
+    // thing.then(gameboard1.placeShip(shipLocations));
+  }
 
   //   //   // console.log(shipLocations);
 }
 
+function promiseShipInput() {}
+
 function waitForUser(shipLocations, i) {
-  function poll(resolve) {
-    if (shipLocations.length == i) {
-      resolve(true);
-    } else {
-      setTimeout(() => poll(resolve), 100);
+  return new Promise((resolve, reject) => {
+    function ensureArrayLength() {
+      if (shipLocations.length == i) {
+        console.log("resolved");
+        return resolve();
+      }
+      setTimeout(ensureArrayLength, 2000);
     }
-
-    while (shipLocations.length > i) {
-      shipLocations.pop();
-    }
-  }
-
-  return new Promise(poll);
+  });
 }
+
+// async function waitForUser(shipLocations, i) {
+//   console.log(i);
+//   console.log(shipLocations);
+//   // function poll(resolve) {
+//   if (shipLocations.length == i) {
+//     // console.log("validity check");
+//     // validityCheck(shipLocations);
+//     return true;
+//   } else {
+//     // setTimeout(() => poll(resolve), 100);
+//     setTimeout(() => waitForUser(shipLocations, i), 5000);
+//   }
+
+//   // }
+
+//   // return new Promise(poll);
+// }
 
 export { gameControl };

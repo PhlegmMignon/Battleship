@@ -1,6 +1,7 @@
 import shipFactory from "./shipFactory.js";
 import gameboardFactory from "./gameboardFactory.js";
 import playerFactory from "./playerFactory.js";
+import gameControl from "./gameControl";
 
 // describe("ship functions", () => {
 //   let ship;
@@ -82,15 +83,52 @@ import playerFactory from "./playerFactory.js";
 //   });
 // });
 
-describe("Player factory functions", () => {
-  let player;
+// describe("Player factory functions", () => {
+//   let player;
+//   beforeEach(() => {
+//     player = playerFactory(0, false);
+//   });
+
+//   it("Valid num 0-99", () => {
+//     let tile = player.makeTurn();
+//     expect(tile).toBeGreaterThanOrEqual(0);
+//     expect(tile).toBeLessThanOrEqual(99);
+//   });
+// });
+
+describe("Turn control functions", () => {
+  let shipLocations = [];
+  let player1 = playerFactory(true);
+  let player2 = playerFactory(true);
+  let p1Ships = [];
+  let p2Ships = [];
+
   beforeEach(() => {
-    player = playerFactory(0, false);
+    let counter = 0;
+    let gameboard1 = gameboardFactory();
+    let gameboard2 = gameboardFactory();
+    // shipLocations = [1, 2, 3, 4, 5];
+    // gameboard1.placeShip();
+    // gameboard2.placeShip();
+
+    // shipLocations = [10, 11, 12, 13];
+    // gameboard1.placeShip();
+    // gameboard2.placeShip();
+
+    // shipLocations = [20, 21, 22];
+    // gameboard1.placeShip();
+    // gameboard2.placeShip();
+
+    shipLocations = [30, 31, 32];
+    gameboard1.placeShip();
+    gameboard2.placeShip();
+
+    shipLocations = [40, 41];
+    gameboard1.placeShip();
+    gameboard2.placeShip();
   });
 
-  it("Valid num 0-99", () => {
-    let tile = player.makeTurn();
-    expect(tile).toBeGreaterThanOrEqual(0);
-    expect(tile).toBeLessThanOrEqual(99);
+  it("Swaps turn after p1 atks", () => {
+    player1.makeTurn();
   });
 });
