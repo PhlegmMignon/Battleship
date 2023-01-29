@@ -1,36 +1,51 @@
 import playerFactory from "./playerFactory";
-import makeGameboard from "./components/gameboardDOM";
+import makeGameboardDOM from "./components/gameboardDOM";
 import { makeShipLocationsPrompt } from "./components/startPrompts";
 import gameboardFactory from "./gameboardFactory";
+import turnControl from "./turnControl";
 // import { resolvePlugin } from "@babel/core";
 
 async function gameControl(isHuman) {
+  let turnCounter = 1;
   let player1 = playerFactory(true);
   let player2 = isHuman ? playerFactory(true) : playerFactory(false);
 
   let p1Ships = [];
   let p2Ships = [];
-  let instructions = [
-    "Place your carrier",
-    "Place your battleship",
-    "Place your cruiser",
-    "Place your submarine",
-    "Place your destoryer",
-  ];
 
-  let shipLocations = [];
-  let shipLengths = [5, 4, 3, 3, 2];
+  let gameboard1 = gameboardFactory();
+  let gameboard2 = gameboardFactory();
 
-  let gameboard = makeGameboard();
+  let gameboardDOM = makeGameboardDOM();
+
+  document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("tile")) {
+      turnControl(e.target.id, turnCounter, gameboard1, gameboard2);
+      turnCounter++;
+    }
+  });
 
   let prompt = makeShipLocationsPrompt();
-  let instructionsPrompt = document.getElementById("instructions");
-  prompt.appendChild(gameboard);
+  prompt.appendChild(gameboardDOM);
 
-  gameboard.addEventListener("click", (e) => {
-    console.log(e.target.id);
-    shipLocations.push(e.target.id);
-  });
+  // let instructions = [
+  //   "Place your carrier",
+  //   "Place your battleship",
+  //   "Place your cruiser",
+  //   "Place your submarine",
+  //   "Place your destoryer",
+  // ];
+
+  // let shipLocations = [];
+  // let shipLengths = [5, 4, 3, 3, 2];
+
+  // let instructionsPrompt = document.getElementById("instructions");
+  // prompt.appendChild(gameboard);
+
+  // gameboard.addEventListener("click", (e) => {
+  //   console.log(e.target.id);
+  //   shipLocations.push(e.target.id);
+  // });
 
   // for (let i = 0; i < 50; i++) {
   //   setTimeout(() => {
@@ -42,40 +57,39 @@ async function gameControl(isHuman) {
   //   }, 1000);
   // }
 
-  let gameboard1 = gameboardFactory();
-  for (let i = 0; i < 2; i++) {
-    shipLocations = [];
-    let p = new Promise((resolve) => {
-      let thing = waitForUser(shipLocations, shipLengths[i]);
-      console.log("thing is" + thing);
-    });
-    p.then((isValid) => {
-      if (isValid == true) {
-        console.log("hi");
-        gameboard1.placeShip(shipLocations);
-      }
-      console.log(p);
-    });
+  // for (let i = 0; i < 2; i++) {
+  //   shipLocations = [];
+  //   let p = new Promise((resolve) => {
+  //     let thing = waitForUser(shipLocations, shipLengths[i]);
+  //     console.log("thing is" + thing);
+  //   });
+  //   p.then((isValid) => {
+  //     if (isValid == true) {
+  //       console.log("hi");
+  //       gameboard1.placeShip(shipLocations);
+  //     }
+  //     console.log(p);
+  //   });
 
-    // thing.then(gameboard1.placeShip(shipLocations));
-  }
+  //   // thing.then(gameboard1.placeShip(shipLocations));
+  // }
 
   //   //   // console.log(shipLocations);
 }
 
-function promiseShipInput() {}
+// function promiseShipInput() {}
 
-function waitForUser(shipLocations, i) {
-  return new Promise((resolve, reject) => {
-    function ensureArrayLength() {
-      if (shipLocations.length == i) {
-        console.log("resolved");
-        return resolve();
-      }
-      setTimeout(ensureArrayLength, 2000);
-    }
-  });
-}
+// function waitForUser(shipLocations, i) {
+//   return new Promise((resolve, reject) => {
+//     function ensureArrayLength() {
+//       if (shipLocations.length == i) {
+//         console.log("resolved");
+//         return resolve();
+//       }
+//       setTimeout(ensureArrayLength, 2000);
+//     }
+//   });
+// }
 
 // async function waitForUser(shipLocations, i) {
 //   console.log(i);

@@ -1,4 +1,4 @@
-function makeGameboard() {
+function makeGameboardDOM() {
   let grid = document.createElement("div");
 
   for (let i = 0; i < 100; i++) {
@@ -7,7 +7,6 @@ function makeGameboard() {
     tile.classList.add("tile");
     tile.style.width = "50px";
     tile.style.height = "50px";
-    // tile.addEventListener()
 
     grid.appendChild(tile);
   }
@@ -23,4 +22,4 @@ function makeGameboard() {
   return grid;
 }
 
-export default makeGameboard;
+export default makeGameboardDOM;
