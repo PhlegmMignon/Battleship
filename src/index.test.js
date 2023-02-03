@@ -2,7 +2,11 @@ import shipFactory from "./shipFactory.js";
 import gameboardFactory from "./gameboardFactory.js";
 import playerFactory from "./playerFactory.js";
 import gameControl from "./gameControl";
-import { turnControl, checkValidity } from "./turnControl";
+import {
+  turnControl,
+  checkTileConflict,
+  shipPlacementHelper,
+} from "./turnControl";
 
 // describe("ship functions", () => {
 //   let ship;
@@ -107,6 +111,25 @@ import { turnControl, checkValidity } from "./turnControl";
 //     expect(tile).toBeLessThanOrEqual(99);
 //   });
 // });
+
+describe("Ship placement helper functions", () => {
+  let tile;
+  let shipLength = 5;
+  let XYtoggle = "x";
+
+  beforeEach(() => {});
+
+  it("Blocks x axis placements", () => {
+    tile = "tile6";
+    expect(shipPlacementHelper(tile, shipLength, XYtoggle)).toBe(false);
+  });
+
+  it("Blocks y axis placements", () => {
+    tile = "tile66";
+    XYtoggle = "y";
+    expect(shipPlacementHelper(tile, shipLength, XYtoggle)).toBe(false);
+  });
+});
 
 //Prob won't be using this
 // describe("Check placement validity", () => {
