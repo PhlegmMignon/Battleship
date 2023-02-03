@@ -2,18 +2,23 @@ import shipFactory from "./shipFactory.js";
 
 const gameboardFactory = () => {
   const missedShots = [];
+  let playerShips = [];
 
   const placeShip = (shipLocations) => {
     let ship = shipFactory(shipLocations);
+    playerShips.push(ship);
     return ship;
   };
 
-  const receiveAttack = (tile, ship) => {
-    // console.log(ship.shipLocation);
-    if (ship.shipLocation.includes(tile)) {
-      ship.hitLocations.push(tile);
-      // console.log(ship.hitLocations);
-      return true;
+  const receiveAttack = (tile) => {
+    for (let i = 0; i < 5; i++) {
+      let ship = playerShips[i];
+      if (ship.shipLocation.includes(tile)) {
+        console.log(tile);
+        ship.hitLocations.push(tile);
+
+        return true;
+      }
     }
 
     missedShots.push(tile);
@@ -21,10 +26,9 @@ const gameboardFactory = () => {
     return false;
   };
 
-  const allShipsSunk = (ships) => {
-    for (let i in ships) {
-      let ship = ships[i];
-      // console.log(ship);
+  const allShipsSunk = () => {
+    for (let i in playerShips) {
+      let ship = playerShips[i];
       if (ship.isSunk() != true) {
         return false;
       }
@@ -35,4 +39,4 @@ const gameboardFactory = () => {
   return { missedShots, placeShip, receiveAttack, allShipsSunk };
 };
 
-module.exports = gameboardFactory;
+export default gameboardFactory;
