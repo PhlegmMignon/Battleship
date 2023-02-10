@@ -11,14 +11,26 @@ function turnControl(tile, counter, gameboard1, gameboard2) {
   }
 }
 
-function checkTileConflict(tile, shipLength, shipArray, XYtoggle) {
-  let cell = document.querySelectorAll("[data-hasShip='false']");
-  console.log(cell);
+function checkTileConflict(shipArray, gameboard) {
+  // let cell = document.querySelectorAll("[data-hasShip='false']");
+  // console.log(cell);
 
-  if (XYtoggle == "x") {
+  for (let i in gameboard.playerShips) {
+    let ship = gameboard.playerShips[i];
+    let compareArray = ship.shipLocation;
+
+    for (let i in compareArray) {
+      let compareTile = compareArray[i];
+
+      for (let i in shipArray) {
+        if (shipArray[i] == compareTile) {
+          return true;
+        }
+      }
+    }
   }
 
-  return true;
+  return false;
 }
 
 function shipPlacementHelper(tile, shipLength, XYtoggle) {

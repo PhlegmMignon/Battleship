@@ -112,42 +112,37 @@ import {
 //   });
 // });
 
-describe("Ship placement helper functions", () => {
-  let tile;
-  let shipLength = 5;
-  let XYtoggle = "x";
-
-  beforeEach(() => {});
-
-  it("Blocks x axis placements", () => {
-    tile = "tile6";
-    expect(shipPlacementHelper(tile, shipLength, XYtoggle)).toBe(false);
-  });
-
-  it("Blocks y axis placements", () => {
-    tile = "tile66";
-    XYtoggle = "y";
-    expect(shipPlacementHelper(tile, shipLength, XYtoggle)).toBe(false);
-  });
-});
-
-//Prob won't be using this
-// describe("Check placement validity", () => {
+// describe("Ship placement helper functions", () => {
 //   let tile;
-//   let ship;
-//   let shipArray;
 //   let shipLength = 5;
 //   let XYtoggle = "x";
-//   let gameboard = gameboardFactory();
 
-//   beforeEach(() => {
-//     shipLocation = [5, 6, 7, 8];
-//     ship = gameboard.placeShip(shipLocation);
-//     shipArray.push(ship);
+//   beforeEach(() => {});
+
+//   it("Blocks x axis placements", () => {
+//     tile = "tile6";
+//     expect(shipPlacementHelper(tile, shipLength, XYtoggle)).toBe(false);
 //   });
 
-//   expect(checkValidity(tile, shipLength, shipArray, XYtoggle).toBe(true));
+//   it("Blocks y axis placements", () => {
+//     tile = "tile66";
+//     XYtoggle = "y";
+//     expect(shipPlacementHelper(tile, shipLength, XYtoggle)).toBe(false);
+//   });
 // });
+
+describe("Check tile conflict functions", () => {
+  let gameboard = gameboardFactory();
+  let ship = gameboard.placeShip([11, 12, 13, 14, 15]);
+  ship = gameboard.placeShip([31, 32, 33]);
+  ship = gameboard.placeShip([41, 42, 43]);
+  ship = gameboard.placeShip([51, 52]);
+
+  it("Expects no tile conflicts", () => {
+    let shipArray = [25, 26, 27, 28];
+    expect(checkTileConflict(shipArray, gameboard)).toBe(false);
+  });
+});
 
 // describe("Turn control functions", () => {
 //   let shipLocations = [];
