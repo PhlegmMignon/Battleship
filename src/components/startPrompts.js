@@ -1,4 +1,4 @@
-import { isHuman, pickShipLocations } from "../gameControl";
+import { gameControl } from "../gameControl";
 
 function makeStartPrompt() {
   let prompt = document.createElement("div");
@@ -23,8 +23,7 @@ function makeStartPrompt() {
   vsBotBtn.id = "vsBotBtn";
   vsBotBtn.textContent = "Bot";
   vsBotBtn.addEventListener("click", () => {
-    isHuman(false);
-    pickShipLocations();
+    gameControl(false);
     prompt.style.display = "none";
   });
 
@@ -32,8 +31,7 @@ function makeStartPrompt() {
   vsHumanBtn.id = "vsHumanBtn";
   vsHumanBtn.textContent = "Human";
   vsHumanBtn.addEventListener("click", () => {
-    isHuman(true);
-    pickShipLocations();
+    gameControl(true);
     prompt.style.display = "none";
   });
 
@@ -45,18 +43,21 @@ function makeStartPrompt() {
   return prompt;
 }
 
-function makeShipLocationsPrompt() {
+function makeSetupPrompt() {
   let prompt2 = document.createElement("div");
   prompt2.id = "prompt2";
   prompt2.classList.add("prompt");
   prompt2.style.display = "flex";
   prompt2.style.width = "300px";
-  prompt2.style.height = "300px";
+  prompt2.style.height = "1000px";
   prompt2.style.flexDirection = "column";
+  prompt2.style.alignItems = "center";
+  prompt2.style.gap = "5px";
 
   let instructions = document.createElement("div");
   instructions.textContent = "Player 1, place your ships";
   instructions.id = "instructions";
+  instructions.style.height = "50px";
 
   prompt2.appendChild(instructions);
 
@@ -66,4 +67,4 @@ function makeShipLocationsPrompt() {
   return prompt2;
 }
 
-export { makeStartPrompt, makeShipLocationsPrompt };
+export { makeStartPrompt, makeSetupPrompt };
