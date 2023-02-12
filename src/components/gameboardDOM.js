@@ -7,6 +7,7 @@ function makeGameboardDOM() {
     tile.classList.add("tile");
     tile.style.width = "50px";
     tile.style.height = "50px";
+    tile.dataset.hasShip = false;
 
     grid.appendChild(tile);
   }

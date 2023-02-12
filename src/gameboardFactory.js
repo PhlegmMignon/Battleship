@@ -14,7 +14,7 @@ const gameboardFactory = () => {
     for (let i = 0; i < 5; i++) {
       let ship = playerShips[i];
       if (ship.shipLocation.includes(tile)) {
-        console.log(tile);
+        // console.log(tile);
         ship.hitLocations.push(tile);
 
         return true;
@@ -36,7 +36,7 @@ const gameboardFactory = () => {
     return true;
   };
 
-  return { missedShots, placeShip, receiveAttack, allShipsSunk };
+  return { playerShips, missedShots, placeShip, receiveAttack, allShipsSunk };
 };
 
 export default gameboardFactory;
