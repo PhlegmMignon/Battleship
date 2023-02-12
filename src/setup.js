@@ -8,59 +8,61 @@ import { makeSetupPrompt } from "./components/startPrompts";
 import makeXYtoggleBtn from "./components/XYtoggle";
 
 const setupGameboard = (isHuman) => {
-  let player1 = playerFactory(true);
-  let player2 = isHuman ? playerFactory(true) : playerFactory(false);
+  return new Promise((resolve) => {
+    let player1 = playerFactory(true);
+    let player2 = isHuman ? playerFactory(true) : playerFactory(false);
 
-  let gameboard1 = gameboardFactory();
-  let gameboard2 = gameboardFactory();
+    let gameboard1 = gameboardFactory();
+    let gameboard2 = gameboardFactory();
 
-  let shipLengths = [5, 4, 3, 3, 2];
+    let shipLengths = [5, 4, 3, 3, 2];
 
-  let prompt = makeSetupPrompt();
-  prompt.appendChild(makeXYtoggleBtn());
-  prompt.appendChild(makeGameboardDOM());
+    let prompt = makeSetupPrompt();
+    prompt.appendChild(makeXYtoggleBtn());
+    prompt.appendChild(makeGameboardDOM());
 
-  //Gonna have to add if statements for each ship length.
-  let placementFinished = false;
-  let p1SetupStart = document.addEventListener("click", (e) => {
-    if (e.target.classList.contains("tile")) {
-      if (gameboard1.playerShips.length != 5) {
-        let shipLocations = shipPlacementHelper(
-          e.target.id,
-          shipLengths[gameboard1.playerShips.length],
-          XYtoggle.value
-        );
-        if (checkTileConflict(shipLocations, gameboard1) == true) {
-          gameboard1.placeShip(shipLocations);
-          console.log("p1 place");
-        }
-      }
-    }
-  });
-
-  let fixp2Ship = false;
-  let p2SetupStart = document.addEventListener("mousedown", (e) => {
-    if (gameboard1.playerShips.length == 5) {
-      document.removeEventListener("click", p1SetupStart);
-
+    //Gonna have to add if statements for each ship length.
+    let placementFinished = false;
+    let p1SetupStart = document.addEventListener("click", (e) => {
       if (e.target.classList.contains("tile")) {
-        if (gameboard2.playerShips.length != 5) {
+        if (gameboard1.playerShips.length != 5) {
           let shipLocations = shipPlacementHelper(
             e.target.id,
-            shipLengths[gameboard2.playerShips.length],
+            shipLengths[gameboard1.playerShips.length],
             XYtoggle.value
           );
-          if (checkTileConflict(shipLocations, gameboard2) == true) {
-            gameboard2.placeShip(shipLocations);
-            console.log("p2 place");
+          if (checkTileConflict(shipLocations, gameboard1) == true) {
+            gameboard1.placeShip(shipLocations);
+            console.log("p1 place");
           }
         }
       }
-    }
+    });
 
-    if (gameboard2.playerShips.length == 5) {
-      return { player1, player2, gameboard1, gameboard2 };
-    }
+    let fixp2Ship = false;
+    let p2SetupStart = document.addEventListener("mousedown", (e) => {
+      if (gameboard1.playerShips.length == 5) {
+        document.removeEventListener("click", p1SetupStart);
+
+        if (e.target.classList.contains("tile")) {
+          if (gameboard2.playerShips.length != 5) {
+            let shipLocations = shipPlacementHelper(
+              e.target.id,
+              shipLengths[gameboard2.playerShips.length],
+              XYtoggle.value
+            );
+            if (checkTileConflict(shipLocations, gameboard2) == true) {
+              gameboard2.placeShip(shipLocations);
+              console.log("p2 place");
+            }
+          }
+        }
+      }
+
+      if (gameboard2.playerShips.length == 5) {
+        resolve({ player1, player2, gameboard1, gameboard2 });
+      }
+    });
   });
 };
 
