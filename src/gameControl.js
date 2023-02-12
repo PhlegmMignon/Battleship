@@ -12,6 +12,12 @@ import setupGameboard from "./setup";
 
 async function gameControl(isHuman) {
   let objects = await setupGameboard(isHuman);
+
+  //Removes all eventlisteners
+  let DOM = document.getElementById("grid");
+  let newDOM = DOM.cloneNode(true);
+  DOM.parentNode.replaceChild(newDOM, DOM);
+
   let winner = await turnControl(
     objects.player1,
     objects.player2,
@@ -28,13 +34,4 @@ async function gameControl(isHuman) {
   document.getElementById("prompt").style.display = "none";
 }
 
-// const waitForStart = (setupFinished) => {
-//   // setTimeout(() => {
-//   if (setupFinished != undefined) {
-//     console.log(setupFinished);
-//   } else {S
-//     setTimeout(waitForStart(setupFinished), 500);
-//   }
-//   // }, 500);
-// };
 export { gameControl };

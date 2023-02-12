@@ -6,6 +6,7 @@ import gameboardFactory from "./gameboardFactory";
 import makeGameboardDOM from "./components/gameboardDOM";
 import { makeSetupPrompt } from "./components/startPrompts";
 import makeXYtoggleBtn from "./components/XYtoggle";
+import { addSetupColor, removeColor } from "./addTileColor";
 
 const setupGameboard = (isHuman) => {
   return new Promise((resolve) => {
@@ -19,7 +20,8 @@ const setupGameboard = (isHuman) => {
 
     let prompt = makeSetupPrompt();
     prompt.appendChild(makeXYtoggleBtn());
-    prompt.appendChild(makeGameboardDOM());
+    let gameboardDOM = makeGameboardDOM();
+    prompt.appendChild(gameboardDOM);
 
     //Gonna have to add if statements for each ship length.
     let placementFinished = false;
@@ -33,16 +35,23 @@ const setupGameboard = (isHuman) => {
           );
           if (checkTileConflict(shipLocations, gameboard1) == true) {
             gameboard1.placeShip(shipLocations);
-            console.log("p1 place");
+            addSetupColor(shipLocations);
           }
         }
+      }
+
+      if (
+        gameboard1.playerShips.length == 5 &&
+        gameboard2.playerShips.length == 0
+      ) {
+        removeColor("one");
       }
     });
 
     let fixp2Ship = false;
-    let p2SetupStart = document.addEventListener("mousedown", (e) => {
+    let p2SetupStart = gameboardDOM.addEventListener("click", (e) => {
       if (gameboard1.playerShips.length == 5) {
-        document.removeEventListener("click", p1SetupStart);
+        gameboardDOM.removeEventListener("click", p1SetupStart);
 
         if (e.target.classList.contains("tile")) {
           if (gameboard2.playerShips.length != 5) {
@@ -53,14 +62,16 @@ const setupGameboard = (isHuman) => {
             );
             if (checkTileConflict(shipLocations, gameboard2) == true) {
               gameboard2.placeShip(shipLocations);
-              console.log("p2 place");
+              addSetupColor(shipLocations);
             }
           }
         }
-      }
-
-      if (gameboard2.playerShips.length == 5) {
-        resolve({ player1, player2, gameboard1, gameboard2 });
+        if (gameboard2.playerShips.length == 5) {
+          removeColor("two");
+          //Prevents atk on the last tile clicked
+          e.stopPropagation();
+          resolve({ player1, player2, gameboard1, gameboard2, gameboardDOM });
+        }
       }
     });
   });

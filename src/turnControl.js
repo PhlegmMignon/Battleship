@@ -5,6 +5,8 @@ function turnControl(p1, p2, gameboard1, gameboard2) {
     tile = tile.substring(4);
     tile = Number(tile);
 
+    if (isNaN(tile)) return;
+
     //Player1 turn
     if (counter % 2 == 0) {
       console.log("p1 atks " + tile);
