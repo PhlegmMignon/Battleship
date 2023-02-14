@@ -1,6 +1,10 @@
 import { addHitColor, addMissedColor, removeColor } from "./addTileColor";
 
 function turnControl(p1, p2, gameboard1, gameboard2) {
+  //Prompts p1 to play
+  let instructions = document.getElementById("instructions");
+  instructions.textContent = "Player 1's turn";
+
   let counter = 0;
 
   document.addEventListener("click", (e) => {
@@ -15,60 +19,86 @@ function turnControl(p1, p2, gameboard1, gameboard2) {
 
     //Player1 turn
     if (counter % 2 == 0) {
-      //Hide gameboard2 colors
-      removeColor();
+      if (validateAtk(tile, gameboard2) != false) {
+        //Prompts p2 to play
+        let instructions = document.getElementById("instructions");
+        instructions.textContent = "Player 2's turn";
 
-      console.log("p1 atks " + tile);
-      gameboard2.receiveAttack(tile);
-      counter++;
+        //Hide gameboard2 colors
+        removeColor();
 
-      //Show gameboard1 colors
-      let shipArray = gameboard1.playerShips;
-      let hitArray = [];
-      for (let i in shipArray) {
-        let ship = shipArray[i];
+        console.log("p1 atks " + tile);
+        gameboard2.receiveAttack(tile);
+        counter++;
 
-        for (let x in ship.hitLocations) {
-          hitArray.push(ship.hitLocations[x]);
+        //Show gameboard1 colors
+        let shipArray = gameboard1.playerShips;
+        let hitArray = [];
+        for (let i in shipArray) {
+          let ship = shipArray[i];
+
+          for (let x in ship.hitLocations) {
+            hitArray.push(ship.hitLocations[x]);
+          }
         }
-      }
-      console.log("hitArray " + hitArray);
-      addHitColor(hitArray);
-      addMissedColor(gameboard1.missedShots);
+        console.log("hitArray " + hitArray);
+        addHitColor(hitArray);
+        addMissedColor(gameboard1.missedShots);
 
-      if (gameboard2.allShipsSunk()) {
-        return "p1";
+        //Win detection
+        if (gameboard2.allShipsSunk()) {
+          return "p1";
+        }
       }
     } else {
-      //Hide gameboard1 colors
-      removeColor();
+      if (validateAtk(tile, gameboard1) != false) {
+        //Prompts p1 to play
+        let instructions = document.getElementById("instructions");
+        instructions.textContent = "Player 1's turn";
 
-      console.log("p2 atks " + tile);
-      gameboard1.receiveAttack(tile);
-      counter++;
+        //Hide gameboard1 colors
+        removeColor();
 
-      // Show gameboard2 colors
-      let shipArray = gameboard2.playerShips;
-      let hitArray = [];
-      for (let i in shipArray) {
-        for (let x in shipArray[i].hitLocations) {
-          hitArray.push(shipArray[i].hitLocations[x]);
+        console.log("p2 atks " + tile);
+        gameboard1.receiveAttack(tile);
+        counter++;
+
+        // Show gameboard2 colors
+        let shipArray = gameboard2.playerShips;
+        let hitArray = [];
+        for (let i in shipArray) {
+          for (let x in shipArray[i].hitLocations) {
+            hitArray.push(shipArray[i].hitLocations[x]);
+          }
         }
-      }
-      addHitColor(hitArray);
-      addMissedColor(gameboard2.missedShots);
+        addHitColor(hitArray);
+        addMissedColor(gameboard2.missedShots);
 
-      if (gameboard2.allShipsSunk()) {
-        return "p2";
+        //Win detection
+        if (gameboard2.allShipsSunk()) {
+          return "p2";
+        }
       }
     }
   });
 }
 
-export { turnControl };
-//Prompt user to click to place 1st ship then push ship
-//Have horizontal/vertical button toggle
-//
-//Check user input for ship overlap, offscreen
+const validateAtk = (tile, gameboard) => {
+  let shipArray = gameboard.playerShips;
+  for (let i in shipArray) {
+    for (let x in shipArray[i].hitLocations) {
+      let compareTile = shipArray[i].hitLocations[x];
+      if (compareTile == tile) {
+        return false;
+      }
+    }
+  }
 
-//Repeat 2-5th ships
+  for (let i in gameboard.missedShots) {
+    if (tile == gameboard.missedShots[i]) {
+      return false;
+    }
+  }
+};
+
+export { turnControl };
