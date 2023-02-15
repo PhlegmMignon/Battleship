@@ -1,4 +1,5 @@
 import shipFactory from "./shipFactory.js";
+import { addHitColor, addMissedColor } from "./addTileColor.js";
 
 const gameboardFactory = () => {
   const missedShots = [];
@@ -22,7 +23,7 @@ const gameboardFactory = () => {
     }
 
     missedShots.push(tile);
-    // console.log(missedShots);
+    // addMissedColor(tile);
     return false;
   };
 

@@ -1,7 +1,8 @@
 import "./style.css";
 import shipFactory from "../shipFactory.js";
 import gameboardFactory from "../gameboardFactory.js";
-import makeStartPrompt from "./startPrompts";
+import { makeStartPrompt, makeShipLocationsPrompt } from "./startPrompts";
+import makeGameboard from "./gameboardDOM";
 
 function component() {
   let element = document.createElement("div");
@@ -10,10 +11,7 @@ function component() {
   element.style.justifyContent = "center";
   element.style.alignItems = "center";
 
-  let prompt = makeStartPrompt();
-  //Make grid
-
-  element.appendChild(prompt);
+  element.appendChild(makeStartPrompt());
   return element;
 }
 

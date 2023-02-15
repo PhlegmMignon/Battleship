@@ -1,4 +1,4 @@
-const playerFactory = (enemyGameboard, isHuman) => {
+const playerFactory = (isHuman) => {
   const makeTurn = () => {
     if (isHuman != true) {
       let tile = getRandomInt();
@@ -6,14 +6,14 @@ const playerFactory = (enemyGameboard, isHuman) => {
       return tile;
     }
 
-    return tile;
+    // return tile;
   };
 
   const getRandomInt = () => {
     return Math.floor(Math.random() * 100);
   };
 
-  return { makeTurn };
+  return { makeTurn, getRandomInt };
 };
 
-module.exports = playerFactory;
+export default playerFactory;

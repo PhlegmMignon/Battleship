@@ -2,11 +2,8 @@ import shipFactory from "./shipFactory.js";
 import gameboardFactory from "./gameboardFactory.js";
 import playerFactory from "./playerFactory.js";
 import gameControl from "./gameControl";
-import {
-  turnControl,
-  checkTileConflict,
-  shipPlacementHelper,
-} from "./turnControl";
+import { turnControl } from "./turnControl";
+import { checkTileConflic, shipPlac } from "./setup";
 
 // describe("ship functions", () => {
 //   let ship;

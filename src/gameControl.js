@@ -26,9 +26,9 @@ async function gameControl(isHuman) {
   );
 
   if (winner == "p1") {
-    alert("p1 wins");
+    alert("Player 1 wins!");
   } else if (winner == "p2") {
-    alert("p2 wins");
+    alert("Player 2 wins!");
   }
 
   document.getElementById("prompt").style.display = "none";

@@ -23,9 +23,7 @@ const setupGameboard = (isHuman) => {
     let gameboardDOM = makeGameboardDOM();
     prompt.appendChild(gameboardDOM);
 
-    //Gonna have to add if statements for each ship length.
-    let placementFinished = false;
-    let p1SetupStart = document.addEventListener("click", (e) => {
+    document.addEventListener("click", (e) => {
       if (e.target.classList.contains("tile")) {
         if (gameboard1.playerShips.length != 5) {
           let shipLocations = shipPlacementHelper(
@@ -44,15 +42,16 @@ const setupGameboard = (isHuman) => {
         gameboard1.playerShips.length == 5 &&
         gameboard2.playerShips.length == 0
       ) {
-        removeColor("one");
+        removeColor();
+
+        //Prompts p2 to place their ships
+        let instructions = document.getElementById("instructions");
+        instructions.innerHTML = "Player 2, place your ships";
       }
     });
 
-    let fixp2Ship = false;
-    let p2SetupStart = gameboardDOM.addEventListener("click", (e) => {
+    gameboardDOM.addEventListener("click", (e) => {
       if (gameboard1.playerShips.length == 5) {
-        gameboardDOM.removeEventListener("click", p1SetupStart);
-
         if (e.target.classList.contains("tile")) {
           if (gameboard2.playerShips.length != 5) {
             let shipLocations = shipPlacementHelper(
@@ -67,7 +66,7 @@ const setupGameboard = (isHuman) => {
           }
         }
         if (gameboard2.playerShips.length == 5) {
-          removeColor("two");
+          removeColor();
           //Prevents atk on the last tile clicked
           e.stopPropagation();
           resolve({ player1, player2, gameboard1, gameboard2, gameboardDOM });
@@ -78,7 +77,7 @@ const setupGameboard = (isHuman) => {
 };
 
 function checkTileConflict(shipArray, gameboard) {
-  console.log("Tile array: " + shipArray);
+  // console.log("Tile array: " + shipArray);
 
   //Catches undefined tile arrays
   if (shipArray == false || shipArray.length < 2) {
