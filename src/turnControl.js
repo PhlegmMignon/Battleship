@@ -26,35 +26,15 @@ function turnControl(p1, p2, gameboard1, gameboard2) {
             counter++;
 
             //Updates gameboard2 colors
-            let shipArray = gameboard2.playerShips;
-            let hitArray = [];
-            for (let i in shipArray) {
-              let ship = shipArray[i];
-
-              for (let x in ship.hitLocations) {
-                hitArray.push(ship.hitLocations[x]);
-              }
-            }
-            addHitColor(hitArray);
-            addMissedColor(gameboard2.missedShots);
+            // Waits so user can see if atk hit or missed
+            showColors(gameboard2);
 
             setTimeout(() => {
               //Hide gameboard2 colors
               removeColor();
 
               //Show gameboard1 colors
-              shipArray = gameboard1.playerShips;
-              hitArray = [];
-              for (let i in shipArray) {
-                let ship = shipArray[i];
-
-                for (let x in ship.hitLocations) {
-                  hitArray.push(ship.hitLocations[x]);
-                }
-              }
-              console.log("hitArray " + hitArray);
-              addHitColor(hitArray);
-              addMissedColor(gameboard1.missedShots);
+              showColors(gameboard1);
 
               //Win detection
               if (gameboard2.allShipsSunk()) {
@@ -72,30 +52,15 @@ function turnControl(p1, p2, gameboard1, gameboard2) {
             counter++;
 
             //Updates gameboard1 colors
-            let shipArray = gameboard1.playerShips;
-            let hitArray = [];
-            for (let i in shipArray) {
-              for (let x in shipArray[i].hitLocations) {
-                hitArray.push(shipArray[i].hitLocations[x]);
-              }
-            }
-            addHitColor(hitArray);
-            addMissedColor(gameboard1.missedShots);
+            showColors(gameboard1);
 
+            // Waits so user can see if atk hit or missed
             setTimeout(() => {
               //Hide gameboard1 colors
               removeColor();
 
               // Show gameboard2 colors
-              shipArray = gameboard2.playerShips;
-              hitArray = [];
-              for (let i in shipArray) {
-                for (let x in shipArray[i].hitLocations) {
-                  hitArray.push(shipArray[i].hitLocations[x]);
-                }
-              }
-              addHitColor(hitArray);
-              addMissedColor(gameboard2.missedShots);
+              showColors(gameboard2);
 
               //Win detection
               if (gameboard2.allShipsSunk()) {
@@ -133,34 +98,15 @@ function turnControl(p1, p2, gameboard1, gameboard2) {
           counter++;
 
           //Updates gameboard2 colors
-          let shipArray = gameboard2.playerShips;
-          let hitArray = [];
-          for (let i in shipArray) {
-            let ship = shipArray[i];
-
-            for (let x in ship.hitLocations) {
-              hitArray.push(ship.hitLocations[x]);
-            }
-          }
-          addHitColor(hitArray);
-          addMissedColor(gameboard2.missedShots);
+          // Waits so user can see if atk hit or missed
+          showColors(gameboard2);
 
           setTimeout(() => {
             //Hide gameboard2 colors
             removeColor();
 
             //Show gameboard1 colors
-            shipArray = gameboard1.playerShips;
-            hitArray = [];
-            for (let i in shipArray) {
-              let ship = shipArray[i];
-
-              for (let x in ship.hitLocations) {
-                hitArray.push(ship.hitLocations[x]);
-              }
-            }
-            addHitColor(hitArray);
-            addMissedColor(gameboard1.missedShots);
+            showColors(gameboard1);
 
             //Win detection
             if (gameboard2.allShipsSunk()) {
@@ -183,34 +129,15 @@ function turnControl(p1, p2, gameboard1, gameboard2) {
             counter++;
 
             //Updates gameboard 1 colors
-            shipArray = gameboard1.playerShips;
-            hitArray = [];
-            for (let i in shipArray) {
-              let ship = shipArray[i];
-
-              for (let x in ship.hitLocations) {
-                hitArray.push(ship.hitLocations[x]);
-              }
-            }
-            addHitColor(hitArray);
-            addMissedColor(gameboard1.missedShots);
+            // Waits so user can see if atk hit or missed
+            showColors(gameboard1);
 
             setTimeout(() => {
               //Hide gameboard1 colors
               removeColor();
 
               //Show gameboard2 colors
-              shipArray = gameboard2.playerShips;
-              hitArray = [];
-              for (let i in shipArray) {
-                let ship = shipArray[i];
-
-                for (let x in ship.hitLocations) {
-                  hitArray.push(ship.hitLocations[x]);
-                }
-              }
-              addHitColor(hitArray);
-              addMissedColor(gameboard2.missedShots);
+              showColors(gameboard2);
 
               //Win detection
               if (gameboard1.allShipsSunk()) {
@@ -244,6 +171,20 @@ const validateAtk = (tile, gameboard) => {
       return false;
     }
   }
+};
+
+const showColors = (gameboard) => {
+  let shipArray = gameboard.playerShips;
+  let hitArray = [];
+  for (let i in shipArray) {
+    let ship = shipArray[i];
+
+    for (let x in ship.hitLocations) {
+      hitArray.push(ship.hitLocations[x]);
+    }
+  }
+  addHitColor(hitArray);
+  addMissedColor(gameboard.missedShots);
 };
 
 export { turnControl, validateAtk };
