@@ -50,29 +50,60 @@ const setupGameboard = (isHuman) => {
       }
     });
 
-    gameboardDOM.addEventListener("click", (e) => {
-      if (gameboard1.playerShips.length == 5) {
-        if (e.target.classList.contains("tile")) {
-          if (gameboard2.playerShips.length != 5) {
-            let shipLocations = shipPlacementHelper(
-              e.target.id,
-              shipLengths[gameboard2.playerShips.length],
-              XYtoggle.value
-            );
-            if (checkTileConflict(shipLocations, gameboard2) == true) {
-              gameboard2.placeShip(shipLocations);
-              addSetupColor(shipLocations);
+    if (player2.isHuman == true) {
+      gameboardDOM.addEventListener("click", (e) => {
+        if (gameboard1.playerShips.length == 5) {
+          if (e.target.classList.contains("tile")) {
+            if (gameboard2.playerShips.length != 5) {
+              let shipLocations = shipPlacementHelper(
+                e.target.id,
+                shipLengths[gameboard2.playerShips.length],
+                XYtoggle.value
+              );
+              if (checkTileConflict(shipLocations, gameboard2) == true) {
+                gameboard2.placeShip(shipLocations);
+                addSetupColor(shipLocations);
+              }
             }
           }
+          if (gameboard2.playerShips.length == 5) {
+            removeColor();
+            //Prevents atk on the last tile clicked
+            e.stopPropagation();
+            resolve({ player1, player2, gameboard1, gameboard2, gameboardDOM });
+          }
         }
-        if (gameboard2.playerShips.length == 5) {
+      });
+    } else {
+      //picks 5 starting locatiosn for bots
+      while (gameboard2.playerShips.length != 5) {
+        let tile = "tile" + Math.floor(Math.random() * 100);
+        let rngXY = Math.floor(Math.random() * 2);
+        rngXY == 0 ? (XYtoggle.value = "x") : (XYtoggle.value = "y");
+        console.log(XYtoggle.value);
+        let shipLocations = shipPlacementHelper(
+          tile,
+          shipLengths[gameboard2.playerShips.length],
+          XYtoggle.value
+        );
+
+        if (checkTileConflict(shipLocations, gameboard2) == true) {
+          gameboard2.placeShip(shipLocations);
+        }
+      }
+      //Bot will place ships before human does
+      XYtoggle.value = "x";
+
+      //Detects finish setup
+      gameboardDOM.addEventListener("mouseover", (e) => {
+        if (gameboard1.playerShips.length == 5) {
           removeColor();
-          //Prevents atk on the last tile clicked
+
           e.stopPropagation();
           resolve({ player1, player2, gameboard1, gameboard2, gameboardDOM });
         }
-      }
-    });
+      });
+    }
   });
 };
 
