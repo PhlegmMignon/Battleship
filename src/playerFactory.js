@@ -1,10 +1,14 @@
-const playerFactory = (isHuman) => {
-  const makeTurn = () => {
-    if (isHuman != true) {
-      let tile = getRandomInt();
-      console.log(tile);
-      return tile;
+import { validateAtk } from "./turnControl.js";
+const playerFactory = (botOrHuman) => {
+  const isHuman = botOrHuman;
+
+  const makeTurn = (gameboard) => {
+    let tile = getRandomInt();
+
+    while (validateAtk(tile, gameboard) == false) {
+      tile = getRandomInt();
     }
+    return tile;
 
     // return tile;
   };
@@ -13,7 +17,7 @@ const playerFactory = (isHuman) => {
     return Math.floor(Math.random() * 100);
   };
 
-  return { makeTurn, getRandomInt };
+  return { isHuman, makeTurn, getRandomInt };
 };
 
 export default playerFactory;
